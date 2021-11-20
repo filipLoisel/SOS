@@ -41,10 +41,11 @@ def fitness_function(data):
         edges = graph[current_vertex]
 
         if __has_traversed_full_graph(visited_edges, starting_point):
-            return distance
+            if current_edge != 0:
+                distance += 5000
 
-        if current_edge not in edges:
-            distance += 5000
+        elif current_edge not in edges:
+            distance += 500000
         else:
             distance += edge_weights[current_edge]
             current_vertex = edges[current_edge]
