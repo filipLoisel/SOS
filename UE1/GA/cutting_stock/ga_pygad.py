@@ -3,12 +3,20 @@ import pygad
 import random
 from math import inf
 
+#penalty for breaching the constraints
+
 penalty = 1000000
 
+
+#length of the stock
 L = 9
-objects = [1,2,2,3,5,6,3,3,2]
+#objects to cut
+objects = [1,2,2,3,5,6,2,1,2,8,3,3,2]
 
 objLen = len(objects)
+
+#creating the starting population
+#it consists of identical objects created using the first fit method
 
 def createInitSol(L, objects):
 
@@ -38,7 +46,7 @@ def createInitSol(L, objects):
     return list(patternList)
 
 
-
+#helper function to divide the solution into the pcutting patterns
 
 def divide_chunks(l, n):
       
@@ -50,9 +58,15 @@ def divide_chunks(l, n):
 
 #### PYGAD
 
+# In the fitness function we calculate the trim score 
+#and give penalties for trying to cut too much of the stock
+
 def fitness_func(solution, solution_idx):
     score = 0
 
+    #checking if all object are still included in the right quantity
+    if sorted([int(i) for i in solution if i != 0]) != sorted(objects):
+        score -= penalty*10
 
 
     for pattern in divide_chunks(solution, objLen):
@@ -79,7 +93,7 @@ def fitness_func(solution, solution_idx):
 fitness_function = fitness_func
 
 num_generations = 1000
-num_parents_mating = 1
+num_parents_mating = 50
 
 sol_per_pop = 100
 
@@ -92,12 +106,12 @@ for i in range(sol_per_pop):
 
 
 parent_selection_type = "sss"
-keep_parents = 1
+keep_parents = 25
 
-crossover_type = None
+crossover_type = "single_point"
 
 mutation_type = "swap"
-mutation_percent_genes = 50
+mutation_percent_genes = 1
 
 ga_instance = pygad.GA(num_generations=num_generations,
                        num_parents_mating=num_parents_mating,
@@ -116,3 +130,4 @@ ga_instance.run()
 solution, solution_fitness, solution_idx = ga_instance.best_solution()
 print("Parameters of the best solution : {solution}".format(solution=solution))
 print("Fitness value of the best solution = {solution_fitness}".format(solution_fitness=solution_fitness))
+ga_instance.plot_result()
