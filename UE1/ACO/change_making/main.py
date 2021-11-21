@@ -10,43 +10,14 @@ class CPPInstance:
         self.goal_value = goal_value
         self.distance = distance
 
-        #self.starting_point = 'a'
         self.starting_point = 0
-
-
-        """self.graph = {
-            'a': {1: 'b', 2: 'b'},
-            'b': {3: 'c', 4: 'c'},
-            'c': {7: 'a', 5: 'd'},
-            'd': {6: 'c'}
-        }
-        """
-
         self.graph = graph
-
-        self.edge_weights = {
-            1: 4,
-            2: 8,
-            3: 5,
-            4: 9,
-            5: 3,
-            6: 2,
-            7: 6
-        }
-
 
     def getNumVertices(self):
         return self.n
 
-    def getWeight(self, edge):
-        return self.edge_weights[edge]
-
-    def getEdges(self):
-        return self.edge_weights.keys()
-
     def getPossbileNextEdgesByVertex(self, vertex):
         return self.graph[vertex][self.graph[vertex] != 0]
-        #return self.graph[vertex]
 
     def getStartPoint(self):
         return 0
@@ -81,23 +52,6 @@ class CPPAnt(ACS_Ant):
         return (self.instance.get_goal_value()- (self.value+chosen_value))*(sum(self.chosen_coins)) + 1
         #return self.instance.getWeight(*[component])
 
-    def __has_traversed_full_graph(self, visited_edges):
-        graph = self.instance.getGraph()
-        edges_to_visit = self.instance.getEdges()
-        current_vertex = self.instance.getStartPoint()
-
-        if not all(item in visited_edges for item in edges_to_visit):
-            return False
-
-        for current_edge in visited_edges:
-            edges = graph[current_vertex]
-            if current_edge not in edges:
-                return False
-
-            current_vertex = edges[current_edge]
-
-        return current_vertex == self.instance.getStartPoint()
-
     def get_chosen_coins(self):
         return self.chosen_coins
 
@@ -119,8 +73,6 @@ class CPPAnt(ACS_Ant):
 
             current_vertex = chosen_vertex
             self.current_vertex = current_vertex
-
-
 
 
 def create_distance(d,N):
