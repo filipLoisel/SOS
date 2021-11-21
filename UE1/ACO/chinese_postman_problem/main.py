@@ -1,5 +1,3 @@
-import random
-
 from ACO.chinese_postman_problem.library import ACS_Ant, Solve
 
 
@@ -25,9 +23,6 @@ class CPPInstance:
             6: 2,
             7: 6
         }
-
-        self.xcoord = [random.random() * 100 for v in range(n)]
-        self.ycoord = [random.random() * 100 for v in range(n)]
 
     def getNumVertices(self):
         return self.n
@@ -83,18 +78,18 @@ class CPPAnt(ACS_Ant):
 
         while not self.__has_traversed_full_graph(visited_edges):
             edges = list(self.instance.getPossbileNextEdgesByVertex(current_vertex).keys())
-            print('ant', id(self) % 100)
-            print('current vertex', current_vertex)
-            print('current edges', edges)
+            # print('ant', id(self) % 100)
+            # print('current vertex', current_vertex)
+            # print('current edges', edges)
 
             chosen_edge = self.makeDecision(edges)
 
             current_vertex = self.instance.getNextVertex(current_vertex, chosen_edge)
             visited_edges.append(chosen_edge)
 
-            print('next vertex', current_vertex)
-            print('next edge', chosen_edge)
-            print('---------------------------')
+            # print('next vertex', current_vertex)
+            # print('next edge', chosen_edge)
+            # print('---------------------------')
 
 
 instance = CPPInstance(50)
