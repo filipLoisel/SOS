@@ -141,7 +141,7 @@ def create_distance(d,N):
         if ((row) % len(d)) == 0:
             c += 1
 
-    matrix[:, -1] = 1
+    #matrix[:, -1] = 1
     matrix[0, 1:1 + len(d)] = d
     matrix[-1, -1] = 0
     return matrix
@@ -160,17 +160,18 @@ def create_graph(d,N):
 
 
 
-d = [2, 3, 5]
-N = 11
+d = [2, 3, 5,7,11,16]
+N = 53
 distance = create_distance(d,N)
 graph = create_graph(d,N)
 instance = CPPInstance(50,distance,goal_value=N,graph=graph)
-obj, components = Solve(antCls=CPPAnt, instance=instance, numIterations=500, numAnts=50, alpha=1, beta=1)
+obj, components = Solve(antCls=CPPAnt, instance=instance, numIterations=100, numAnts=10, alpha=1, beta=1)
 coin_values = []
-coins = [0]*len(d)
+coins = np.zeros(len(d))
 for component in components:
-    coin_values.append(d[(component % 4) -1])
-    coins[(component % 4) -1] += 1
+    value = distance[:,component][distance[:,component] !=0][0]
+    coin_values.append(value)
+    coins[d == value] += 1
 
 print("Value: {} was created using {} coins ".format(sum(coin_values),len(coin_values)))
 print("Chosen coins: {}".format(coins))
