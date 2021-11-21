@@ -1,19 +1,21 @@
-graph = {
-    'a': {1: 'b', 2: 'b'},
-    'b': {3: 'c', 4: 'c'},
-    'c': {7: 'a', 5: 'd'},
-    'd': {6: 'c'}
-}
+from ACO.chinese_postman_problem.data.generator import random_adjacency_matrix, matrix_to_dict
 
-edge_weights = {
-    1: 4,
-    2: 8,
-    3: 5,
-    4: 9,
-    5: 3,
-    6: 2,
-    7: 6
-}
+n = 5
+amount_edges = (n * n - n) // 2
+matrix = random_adjacency_matrix(n)
+# matrix = [[0, 2, 4], [2, 0, 4], [4, 4, 0]]
+print('matrix')
+print(matrix)
+print()
+graph, edge_weights = matrix_to_dict(matrix)
+# graph, edge_weights = {0: {1: 1, 2: 2}, 1: {1: 0, 3: 2}, 2: {2: 0, 3: 1}}, {1: 2, 2: 4, 3: 4}
+print('graph')
+print(graph)
+print()
+print('edge_weights')
+print(edge_weights)
+print('sum weights')
+print(sum(list(edge_weights.values())))
 
 
 def __has_traversed_full_graph(visited_edges, starting_point):
@@ -33,7 +35,7 @@ def __has_traversed_full_graph(visited_edges, starting_point):
 
 
 def fitness_function(data):
-    starting_point = 'a'
+    starting_point = 0
     current_vertex = starting_point
     distance = 0
     visited_edges = []

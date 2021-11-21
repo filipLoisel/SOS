@@ -1,31 +1,27 @@
+import timeit
+
+from ACO.chinese_postman_problem.data.generator import random_adjacency_matrix, matrix_to_dict
 from ACO.chinese_postman_problem.library import ACS_Ant, Solve
 
 
 class CPPInstance:
     def __init__(self, n):
-        self.n = n
+        self.starting_point = 1
 
-        self.starting_point = 'a'
-
-        self.graph = {
-            'a': {1: 'b', 2: 'b'},
-            'b': {3: 'c', 4: 'c'},
-            'c': {7: 'a', 5: 'd'},
-            'd': {6: 'c'}
-        }
-
-        self.edge_weights = {
-            1: 4,
-            2: 8,
-            3: 5,
-            4: 9,
-            5: 3,
-            6: 2,
-            7: 6
-        }
-
-    def getNumVertices(self):
-        return self.n
+        matrix = random_adjacency_matrix(n)
+        #matrix = [[0, 7, 3, 1, 4], [7, 0, 5, 5, 3], [3, 5, 0, 5, 4], [1, 5, 5, 0, 1], [4, 3, 4, 1, 0]]
+        print('matrix')
+        print(matrix)
+        print()
+        self.graph, self.edge_weights = matrix_to_dict(matrix)
+        #self.graph, self.edge_weights = {0: {1: 1, 2: 2, 3: 3, 4: 4}, 1: {1: 0, 5: 2, 6: 3, 7: 4}, 2: {2: 0, 5: 1, 8: 3, 9: 4}, 3: {3: 0, 6: 1, 8: 2, 10: 4}, 4: {4: 0, 7: 1, 9: 2, 10: 3}} ,{1: 7, 2: 3, 3: 1, 4: 4, 5: 5, 6: 5, 7: 3, 8: 5, 9: 4, 10: 1}
+        print('graph')
+        print(self.graph)
+        print()
+        print('edge_weights')
+        print(self.edge_weights)
+        print('sum weights')
+        print(sum(list(self.edge_weights.values())))
 
     def getWeight(self, edge):
         return self.edge_weights[edge]
@@ -37,7 +33,7 @@ class CPPInstance:
         return self.graph[vertex]
 
     def getStartPoint(self):
-        return 'a'
+        return self.starting_point
 
     def getGraph(self):
         return self.graph
@@ -78,7 +74,6 @@ class CPPAnt(ACS_Ant):
 
         while not self.__has_traversed_full_graph(visited_edges):
             edges = list(self.instance.getPossbileNextEdgesByVertex(current_vertex).keys())
-            # print('ant', id(self) % 100)
             # print('current vertex', current_vertex)
             # print('current edges', edges)
 
@@ -92,6 +87,12 @@ class CPPAnt(ACS_Ant):
             # print('---------------------------')
 
 
-instance = CPPInstance(50)
-obj, components = Solve(antCls=CPPAnt, instance=instance, numIterations=1000, numAnts=10, alpha=1, beta=1)
+start = timeit.default_timer()
+
+instance = CPPInstance(20)
+obj, components = Solve(antCls=CPPAnt, instance=instance, numIterations=1, numAnts=500, alpha=1, beta=1)
+
+stop = timeit.default_timer()
+print('Time: ', stop - start)
+
 print(obj, components)
