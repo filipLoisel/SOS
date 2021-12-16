@@ -1,23 +1,29 @@
 import numpy as np
 from copy import copy
 import random
+import time
+import math
+import pickle
+import pandas as pd
 
 ## pheromone matrix ##
 
 #length of the stock
-L = 234
+L = 50
 
 #objects to cut
-#objects = [4,4,5,5,5,6,7,7,8,8,8,8,8,8,5,2,3,4,5]
-objects = [random.randint(2, L-1) for i in range(50)]
+
+objects = [random.randint(2, L-int(L/2)) for i in range(200)]
 
 def ACO(L,objects):
 
 	#parameters
 
-	generations = 10
+	generations = 100
 
-	nants = len(objects)
+	stop_criteria = 3
+
+	nants = 5 #len(objects)
 
 	beta = 2 # 2, 5 or 10.
 
@@ -26,7 +32,7 @@ def ACO(L,objects):
 	gamma = 500/len(objects) # global best ant or run best ant
 
 	# create initial values for pheromone matrix
-	pheromone_matrix = np.zeros((L, L)) + 1/1-rho
+	pheromone_matrix = np.random.rand(L,L)/5#np.zeros((L, L)) + 1/1-rho
 
 	## solution ##
 
@@ -52,9 +58,9 @@ def ACO(L,objects):
 
 	## update pheromone trail ##
 
-	# τ(i,j) = ρ.τ(i,j) + m.f(sbest) 
 
 	def update(sbest):
+
 		for i in range(L):
 			for j in range(L):
 				m = 0
@@ -64,13 +70,32 @@ def ACO(L,objects):
 
 					if (count_i != 0) and (count_j != 0):
 						m += i*j
+
 				pheromone_matrix[i,j] = rho*pheromone_matrix[i,j] + m*fitness(sbest)
+
+	def pheromone_randomizer():
+		for i in range(L):
+			for j in range(L):
+				pheromone_matrix[i,j] = pheromone_matrix[i,j]*random.uniform(0,1)
 
 	## fitness function ## 
 
 	def fitness(solution):
 
-			return sum([sum(pattern)/L for pattern in solution])**2/len(solution)
+		#return 1/(0.0001+trim_loss(solution))
+
+		return sum([sum(pattern)/L for pattern in solution])**2/len(solution)
+
+	def trim_loss(solution):
+		score = 0
+		for pattern in solution:
+			if sum(pattern) == 0:
+				trimScore = 0
+			else:
+				trimScore = L - sum(pattern)
+			score += trimScore
+		return score
+
 
 	## calculate one generation ##
 
@@ -94,7 +119,7 @@ def ACO(L,objects):
 
 					space_left = L - sum(current_pattern)
 
-					if L - sum(current_pattern) < item:
+					if space_left < item:
 						choice_prob.append(0)
 					else:
 						items_left_to_check = [x for x in items_left_to_check if x <= space_left] 
@@ -124,10 +149,19 @@ def ACO(L,objects):
 
 	global_best_sols = []
 
+	same_sbest = 0
+
+	global_best_fitness = 0
+	global_best_solution = None
+
 	for gen in range(generations):
 
+		if same_sbest >= stop_criteria:
+			print("No progress: stopping")
+			break
 
-		print("\ncalculating gen: " + str(gen))
+		#print("\ncalculating gen: " + str(gen))
+		#print(pheromone_matrix)
 
 		# calculate current generation of solutions
 
@@ -136,20 +170,56 @@ def ACO(L,objects):
 		#find best solution based on fitness
 
 		gen_fitness = [fitness(x) for x in gen_solutions]
-		sbest = gen_solutions[gen_fitness.index(max(gen_fitness))]
+		best_fitness = max(gen_fitness)
+
+		if best_fitness > global_best_fitness:
+			global_best_fitness = best_fitness
+			global_best_solution = gen_solutions[gen_fitness.index(best_fitness)]
+
+		else:
+			same_sbest += 1
+		
+		sbest = gen_solutions[gen_fitness.index(best_fitness)]
+
+
 
 		#save best solution for each generation
 
-		global_best_sols.append([sbest, fitness(sbest)])
+		global_best_sols.append([sbest, fitness(sbest), trim_loss(sbest)])
 
 
 		#update based on best solution
 
-		print(fitness(sbest))
+		#print(fitness(sbest))
+		#print(trim_loss(sbest))
 
 		update(sbest)
 
+		#pheromone_randomizer()
 
-	return(global_best_sols)
+		#pheromone_matrix = pheromone_matrix/np.max(pheromone_matrix)
 
-print(ACO(L,objects))
+
+	return(global_best_sols, [global_best_solution, global_best_fitness, trim_loss(global_best_solution)])
+
+
+
+pickle_in = open("csp_testset.pickle","rb")
+test_set = pickle.load(pickle_in)
+
+counter = 0
+table_500 = [['n','Trimloss', 'Fitness', 'runtime']]
+for test in test_set['500'][1:3]:
+	counter += 1
+	print("Test {s} started".format(s=counter))
+	starttime = time.time()
+	result = ACO(test[0],test[1])
+	endtime = time.time()
+	runtime= endtime-starttime
+	print("Test {s} complete".format(s=counter))
+	print("Elapsed Time: {time}".format(time=runtime))
+
+	table_500.append([500,result[-1][-1],result[-1][-2],runtime])
+
+pd.DataFrame(table_500).to_csv('aco_table_500.csv', header=False, index=False)
+
