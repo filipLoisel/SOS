@@ -688,7 +688,7 @@ SWITCH
 143
 Constraints
 Constraints
-1
+0
 1
 -1000
 
@@ -728,7 +728,7 @@ CHOOSER
 constraint_handling_method
 constraint_handling_method
 "Rejection Method" "Penalty Method"
-0
+1
 
 INPUTBOX
 320
