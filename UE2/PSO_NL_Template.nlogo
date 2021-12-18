@@ -317,7 +317,9 @@ end
 
 ; dummy random fitness function to be implemented by students
 to-report fittness_function_4 [x y]
-  report random-normal 0 1;
+  let x1 99 /  max-x * x ; scale x to have a value from -99 to 99
+  let y1 99 /  max-y * y ; scale y to have a value from -99 to 99
+  report 0.5 + (sin(x1 ^ 2 - y1 ^ 2) ^ 2 - 0.5) / ((1 + 0.001 * (x1 ^ 2 + y1 ^ 2)) ^ 2);
 end
 
 ; dummy random fitness function to be implemented by students
@@ -327,7 +329,7 @@ end
 
 ; dummy random fitness function to be implemented by students
 to-report fittness_function_6 [x y]
-  report random-normal 0 1;
+  report cos(x) * cos(y) * e ^(-((x - pi) ^ 2 + (y - pi) ^ 2));
 end
 
 to-report fittness_function_7 [x y]
@@ -342,37 +344,54 @@ end
 
 ; dummy random constrinat to be implemented by students
 to-report constrain_1 [x y]
-  report ((x ^ 2 + y ^ 2) < 6000)
+  report (x ^ 2 + y ^ 2) < 6000
 end
 
 ; dummy random constrinat to be implemented by students
 to-report constrain_2 [x y]
-  report FALSE
+  ifelse ((x > 3 * y) or (3 * x < y))
+  [report TRUE]
+  [report FALSE]
+
 end
 
 ; dummy random constrinat to be implemented by students
 to-report constrain_3 [x y]
-  report FALSE
-end
+  ifelse ( (x > (y + 20)) or (x < (y - 20)) )
+  [report TRUE]
+  [report FALSE]
+  end
 
 ; dummy random constrinat to be implemented by students
 to-report constrain_4 [x y]
-  report FALSE
+  ifelse ( ((x ^ 2 + y ^ 2) < 9000) and ((x ^ 2 + y ^ 2) > 4000) )
+  [report TRUE]
+  [report FALSE]
+
 end
 
 ; dummy random constrinat to be implemented by students
 to-report constrain_5 [x y]
-  report FALSE
+  ifelse x > y
+  [report TRUE]
+  [report FALSE]
+
 end
 
 ; dummy random constrinat to be implemented by students
 to-report constrain_6 [x y]
-  report FALSE
+  ifelse (10 * x) < (y ^ 2)
+  [report TRUE]
+  [report FALSE]
+
 end
 
 ; dummy random constrinat to be implemented by students
 to-report constrain_7 [x y]
-  report FALSE
+  ifelse tan(2 * x) < tan(4 * y)
+  [report TRUE]
+  [report FALSE]
+
 end
 
 
@@ -391,7 +410,7 @@ to-report constrain_9 [x y]
 end
 
 to-report constrain_10 [x y]
-  ifelse   tan(x * y) < 1
+  ifelse tan(x * y) < 1
   [report TRUE]
   [report FALSE]
 
@@ -679,7 +698,7 @@ CHOOSER
 fitness_function
 fitness_function
 "Example function" "Fitness function 1" "Fitness function 2" "Fitness function 3" "Fitness function 4" "Fitness function 5" "Fitness function 6" "Fitness function 7"
-0
+1
 
 SWITCH
 10
@@ -688,7 +707,7 @@ SWITCH
 143
 Constraints
 Constraints
-1
+0
 1
 -1000
 
@@ -794,7 +813,7 @@ CHOOSER
 Constraint
 Constraint
 "Example" "Constraint 1" "Constraint 2" "Constraint 3" "Constraint 4" "Constraint 5" "Constraint 6" "Constraint 7" "Constraint 8" "Constraint 9" "Constraint 10"
-0
+10
 
 PLOT
 10
