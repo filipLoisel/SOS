@@ -105,13 +105,18 @@ to initialize-topology
   let max-val max [val] of patches
 
   ask patches [
+
     ;normalize the values to be between 0 and 1
     set val (val - min-val) / (max-val - min-val)
 
-    ;check whether the patch violates a constrain
-    ;if yes set its value to zero and color to red
-    ;otherwise, set the patch color according to its value
-    ifelse  ((violates pxcor  pycor) and (constraints = TRUE))
+     (ifelse  ((violates pxcor  pycor) and (constraints = TRUE) and (constraint_handling_method = "Penalty Method"))
+     [
+
+         set val val - 0.5
+         set pcolor 15
+         ;set pcolor scale-color grey val 0.0  1
+     ]
+    (violates pxcor  pycor) and (constraints = TRUE) and  (constraint_handling_method = "Rejection Method")
      [
          set val 0
          set pcolor 15
@@ -120,7 +125,7 @@ to initialize-topology
      [
          set pcolor scale-color gray val 0.0  1
 
-     ]
+     ])
 
     ]
 
@@ -559,7 +564,7 @@ population-size
 population-size
 1
 100
-13.0
+26.0
 1
 1
 NIL
@@ -635,7 +640,7 @@ CHOOSER
 trails-mode
 trails-mode
 "None" "Traces"
-0
+1
 
 SLIDER
 320
@@ -646,7 +651,7 @@ particle-speed-limit
 particle-speed-limit
 1
 20
-13.0
+7.0
 1
 1
 NIL
@@ -660,7 +665,7 @@ CHOOSER
 highlight-mode
 highlight-mode
 "None" "Best found" "True best"
-1
+2
 
 MONITOR
 320
@@ -698,7 +703,7 @@ CHOOSER
 fitness_function
 fitness_function
 "Example function" "Fitness function 1" "Fitness function 2" "Fitness function 3" "Fitness function 4" "Fitness function 5" "Fitness function 6" "Fitness function 7"
-1
+6
 
 SWITCH
 10
@@ -747,7 +752,7 @@ CHOOSER
 constraint_handling_method
 constraint_handling_method
 "Rejection Method" "Penalty Method"
-0
+1
 
 INPUTBOX
 320
@@ -813,7 +818,7 @@ CHOOSER
 Constraint
 Constraint
 "Example" "Constraint 1" "Constraint 2" "Constraint 3" "Constraint 4" "Constraint 5" "Constraint 6" "Constraint 7" "Constraint 8" "Constraint 9" "Constraint 10"
-10
+8
 
 PLOT
 10
