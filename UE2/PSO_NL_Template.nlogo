@@ -113,8 +113,8 @@ to initialize-topology
      [
 
          set val val - 0.5
-         set pcolor 15
-         ;set pcolor scale-color grey val 0.0  1
+         ;set pcolor 15
+         set pcolor scale-color grey val 0.0  1
      ]
     (violates pxcor  pycor) and (constraints = TRUE) and  (constraint_handling_method = "Rejection Method")
      [
@@ -564,7 +564,7 @@ population-size
 population-size
 1
 100
-26.0
+66.0
 1
 1
 NIL
@@ -579,7 +579,7 @@ personal-confidence
 personal-confidence
 0
 2
-0.8
+2.0
 0.1
 1
 NIL
@@ -669,9 +669,9 @@ highlight-mode
 
 MONITOR
 320
-230
+270
 490
-275
+315
 best-value-found
 global-best-val
 4
@@ -735,9 +735,9 @@ NIL
 
 MONITOR
 320
-295
+315
 490
-340
+360
 # iteration
 iterations
 0
@@ -752,7 +752,7 @@ CHOOSER
 constraint_handling_method
 constraint_handling_method
 "Rejection Method" "Penalty Method"
-1
+0
 
 INPUTBOX
 320
@@ -837,6 +837,21 @@ false
 "" ""
 PENS
 "default" 1.0 0 -5298144 true "" "plot global-best-val"
+
+SLIDER
+320
+210
+492
+243
+penalty
+penalty
+0
+1
+0.5
+0.1
+1
+NIL
+HORIZONTAL
 
 @#$#@#$#@
 ## WHAT IS IT?
