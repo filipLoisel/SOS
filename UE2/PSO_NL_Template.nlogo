@@ -333,7 +333,7 @@ to-report fittness_function_6 [x y]
 end
 
 to-report fittness_function_7 [x y]
-  report (x + 2 * y - 7) ^ 2 + (2 * x + y - 5) ^ 2;
+  report ((x + 2 * y - 7) ^ 2 + (2 * x + y - 5) ^ 2) * -1;
 end
 
 
