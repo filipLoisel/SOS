@@ -112,7 +112,7 @@ to initialize-topology
      (ifelse  ((violates pxcor  pycor) and (constraints = TRUE) and (constraint_handling_method = "Penalty Method"))
      [
 
-         set val val - 0.5
+         set val val - penalty
          ;set pcolor 15
          set pcolor scale-color grey val 0.0  1
      ]
@@ -338,7 +338,7 @@ to-report fittness_function_6 [x y]
 end
 
 to-report fittness_function_7 [x y]
-  report (x + 2 * y - 7) ^ 2 + (2 * x + y - 5) ^ 2;
+  report (-1) *( (x + 2 * y - 7) ^ 2 + (2 * x + y - 5) ^ 2);
 end
 
 
@@ -712,7 +712,7 @@ SWITCH
 143
 Constraints
 Constraints
-0
+1
 1
 -1000
 
@@ -752,7 +752,7 @@ CHOOSER
 constraint_handling_method
 constraint_handling_method
 "Rejection Method" "Penalty Method"
-0
+1
 
 INPUTBOX
 320
@@ -847,7 +847,7 @@ penalty
 penalty
 0
 1
-0.5
+0.2
 0.1
 1
 NIL
