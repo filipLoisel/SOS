@@ -367,3 +367,11 @@ modules.xml
 
 
 # Sonarlint plugin
+
+# Netlogo
+
+.PSO_NL_Template.tmp.nlogo
+backup.txt
+
+
+
