@@ -65,7 +65,7 @@ def average_lines(lines,clusters,r_matrix):
 
             elif r_matrix[first_ind, compare_ind] == 1:  # reverse distance
                 averaged_line = averaged_line + np.flip(lines[compare_ind])
-        averaged_line / len(cluster_lines)
+        averaged_line = averaged_line / len(cluster_lines)
         final_lines.append(averaged_line)
     return final_lines
 
@@ -82,7 +82,9 @@ def aggregate(lines,threshold):
 if __name__ == '__main__':
     lines = create_lines()
     new_lines = aggregate(lines, 28)
-    print("Original lines {} \nAggregated lines {}".format(lines,new_lines))
+   # print("Original lines {} \nAggregated lines {}".format(lines,new_lines))
+    print(new_lines)
+
 
 
 
