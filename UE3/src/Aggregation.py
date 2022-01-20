@@ -45,16 +45,19 @@ def assign_clusters(d_matrix,threshold,print_Z=False):
     if print_Z:
         print(Z)
     assigned_clusters = fcluster(Z, threshold, criterion='distance')
+    print(assigned_clusters)
     return assigned_clusters
 
 def average_lines(lines,clusters,r_matrix):
     ''' averages x,y values of all lines per cluster
     '''
+    #final_lines = np.empty((clusters.max(),lines[],2))
     final_lines = []
-    for i in range(max(clusters)-1): #iterate trough clusters
+    for i in range(max(clusters)): #iterate trough clusters
         cluster_lines = np.where(clusters == i + 1)
-        if len(cluster_lines) == 1:
-            final_lines.append(lines[cluster_lines[0]])
+        if len(cluster_lines[0]) == 1:
+            final_lines.append(lines[cluster_lines[0]][0].tolist())
+            break
 
 
         first_ind = cluster_lines[0][0]
@@ -64,8 +67,9 @@ def average_lines(lines,clusters,r_matrix):
                 averaged_line = averaged_line + lines[compare_ind]
 
             elif r_matrix[first_ind, compare_ind] == 1:  # reverse distance
-                averaged_line = averaged_line + np.flip(lines[compare_ind])
-        averaged_line = averaged_line / len(cluster_lines)
+                averaged_line = averaged_line + np.flip(lines[compare_ind],axis=0)
+        averaged_line = (averaged_line / len(cluster_lines[0])).tolist()
+
         final_lines.append(averaged_line)
     return final_lines
 
@@ -74,6 +78,7 @@ def aggregate(lines,threshold):
     d_matrix, r_matrix = create_distance_matrix(lines)
     clusters = assign_clusters(d_matrix, threshold)
     new_lines = average_lines(lines, clusters, r_matrix)
+    new_lines = np.array(new_lines)
     return new_lines
 
 
@@ -84,6 +89,7 @@ if __name__ == '__main__':
     new_lines = aggregate(lines, 28)
    # print("Original lines {} \nAggregated lines {}".format(lines,new_lines))
     print(new_lines)
+    print(np.array(new_lines).shape)
 
 
 
