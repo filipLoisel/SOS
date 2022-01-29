@@ -1,5 +1,5 @@
-from visualizations.iVisualization import VisualizationInterface
-from controls.controllers import ComPlaneController
+from template.visualizations.iVisualization import VisualizationInterface
+from template.controls.controllers import ComPlaneController
 import panel as pn
 import numpy as np
 

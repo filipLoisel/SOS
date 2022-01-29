@@ -1,6 +1,6 @@
-from visualizations.iVisualization import VisualizationInterface
-from controls.controllers import UStar_PMatrixController
-from visualizations.umatrix import UMatrix
+from template.visualizations.iVisualization import VisualizationInterface
+from template.controls.controllers import UStar_PMatrixController
+from template.visualizations.umatrix import UMatrix
 import panel as pn
 import numpy as np
 class UStar_PMatrix(VisualizationInterface):

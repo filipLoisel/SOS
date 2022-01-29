@@ -19,22 +19,22 @@ import holoviews as hv
 from holoviews import opts
 from holoviews.streams import Pipe, Buffer
 
-from controls.controllers import MainController
+from template.controls.controllers import MainController
 hv.extension('bokeh')
 
-from visualizations.complane import ComponentPlane
-from visualizations.dmatrix import DMatrix
-from visualizations.hithistogram import HitHist
-from visualizations.sdh import SDH
-from visualizations.qerror import QError
-from visualizations.umatrix import UMatrix
-from visualizations.upmatrix import UStar_PMatrix
-from visualizations.neighbourhood_graph import NeighbourhoodGraph
-from visualizations.clustering import Clustering
-from visualizations.metromap import MetroMap
-from visualizations.piechart import PieChart
-from visualizations.chessboard import Chessboard
-from visualizations.time_series import TimeSeries
+from template.visualizations.complane import ComponentPlane
+from template.visualizations.dmatrix import DMatrix
+from template.visualizations.hithistogram import HitHist
+from template.visualizations.sdh import SDH
+from template.visualizations.qerror import QError
+from template.visualizations.umatrix import UMatrix
+from template.visualizations.upmatrix import UStar_PMatrix
+from template.visualizations.neighbourhood_graph import NeighbourhoodGraph
+from template.visualizations.clustering import Clustering
+from template.visualizations.metromap import MetroMap
+from template.visualizations.piechart import PieChart
+from template.visualizations.chessboard import Chessboard
+from template.visualizations.time_series import TimeSeries
 from skimage.transform import resize
 
 OBJECTS_CLASSES = [ComponentPlane, HitHist, UMatrix, DMatrix, UStar_PMatrix, 

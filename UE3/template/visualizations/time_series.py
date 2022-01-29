@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.spatial import distance_matrix, distance
-from visualizations.iVisualization import VisualizationInterface
-from controls.controllers import TimeSeriesController
+from template.visualizations.iVisualization import VisualizationInterface
+from template.controls.controllers import TimeSeriesController
 import panel as pn
 import holoviews as hv
 from holoviews.streams import Pipe, Buffer

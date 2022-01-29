@@ -1,5 +1,5 @@
-from visualizations.iVisualization import VisualizationInterface
-from controls.controllers import SDHController
+from template.visualizations.iVisualization import VisualizationInterface
+from template.controls.controllers import SDHController
 import panel as pn
 import numpy as np
 

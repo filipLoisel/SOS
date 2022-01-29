@@ -1,8 +1,8 @@
 
-from visualizations.iVisualization import VisualizationInterface
+from template.visualizations.iVisualization import VisualizationInterface
 from scipy.spatial import Voronoi
 from skimage.draw import polygon
-from controls.controllers import ChessboardController
+from template.controls.controllers import ChessboardController
 import holoviews as hv
 import numpy as np
 import panel as pn

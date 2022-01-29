@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.spatial import distance_matrix, distance
-from visualizations.iVisualization import VisualizationInterface
+from template.visualizations.iVisualization import VisualizationInterface
 import panel as pn
 import holoviews as hv
 from bokeh.palettes import Category20c, Category20
